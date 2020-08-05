@@ -2,11 +2,6 @@
 
 Module to manage AWS Backup with Terraform.
 
-### Limitations
-
-- This module can only create one optional vault and/or one optional plan and/or one optional selection by tags and/or by ressources.
-
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -22,13 +17,10 @@ Module to manage AWS Backup with Terraform.
 | plan\_rule\_schedule | A CRON expression specifying when to initiates a backup job for the plan. | string | `""` | no |
 | plan\_rule\_start\_window | The amount of time in minutes before beginning a backup for the plan. | string | `""` | no |
 | plan\_tags | Tags for the Backup plan. Will be merged with tags. | map | `{}` | no |
-| selection\_by\_ressources | Whether or not to create a selection by resources. | string | `"false"` | no |
 | selection\_by\_tags | Whether or not to create a selection by tags. | string | `"false"` | no |
 | selection\_create | Whether or not to create a selection. | string | `"true"` | no |
 | selection\_iam\_role\_name | Name of the IAM role that AWS Backup uses to authenticate when restoring and backing up the target resource. | string | `"BackupRole"` | no |
 | selection\_plan\_id | The backup plan ID to be associated with the selection of resources. Must be specified if plan_create is false. | string | `""` | no |
-| selection\_resource\_name | Name of the selection by resource. | string | `"selection-by-resource"` | no |
-| selection\_resources | An array of strings that either contain Amazon Resource Names (ARNs) or match patterns of resources to assign to a backup plan. | list | `[]` | no |
 | selection\_role\_arn | ARN of the IAM role that AWS Backup uses to authenticate when restoring and backing up the target resource. Must be specified if selection_role_create is false. | string | `""` | no |
 | selection\_role\_create | Whether or not to create a role for selection. | string | `"true"` | no |
 | selection\_tag\_key | The key in a key-value pair of the selection by tags. | string | `"Backup"` | no |
@@ -54,7 +46,6 @@ Module to manage AWS Backup with Terraform.
 | plan\_iam\_role\_name | Name of the role for the backup plans. |
 | plan\_iam\_role\_unique\_id | Stable and unique string identifying the role for the backup plans. |
 | plan\_versions | Unique, randomly generated, Unicode, UTF-8 encoded strings that serves as the version ID of the backup plans. |
-| selection\_resources\_ids | Backup Selection identifiers (by ressources). |
 | selection\_tag\_ids | Backup Selection identifiers (by tags). |
 | vault\_arn | ARN of the vault. |
 | vault\_id | The name of the vault. |
