@@ -4,22 +4,22 @@ resource "aws_backup_vault" "maf_vault" {
 }
 
 resource "aws_kms_key" "vault_key" {
-  description             = "KMS key For Backup Vault"
+  description = "KMS key For Backup Vault"
 }
 
 resource "aws_backup_plan" "maf_aws_backup_plan" {
   name = var.backup_plan_name
 
   rule {
-    rule_name         = var.backup_rule_name
-    target_vault_name = aws_backup_vault.maf_vault.name
-    schedule          = var.backup_cron_schedule
+    rule_name           = var.backup_rule_name
+    target_vault_name   = aws_backup_vault.maf_vault.name
+    schedule            = var.backup_cron_schedule
     start_window        = var.rule_start_window
     completion_window   = var.rule_completion_window
     recovery_point_tags = var.rule_recovery_point_tags
     lifecycle {
-        cold_storage_after = var.cold_storage_after_days
-        delete_after = var.delete_after_days
+      cold_storage_after = var.cold_storage_after_days
+      delete_after       = var.delete_after_days
     }
   }
 }
