@@ -140,6 +140,14 @@ variable "selection_by_tags" {
   default     = false
 }
 
+<<<<<<< HEAD
+=======
+variable "selection_by_ressources" {
+  description = "Whether or not to create a selection by resources."
+  default     = false
+}
+
+>>>>>>> 6639311824aab204b98dbb93adaa398197375c8d
 variable "selection_tag_name" {
   description = "Name of the selection by tags."
   default     = "selection-by-tag"
@@ -165,3 +173,15 @@ variable "selection_plan_id" {
   default     = ""
 }
 
+<<<<<<< HEAD
+=======
+variable "selection_resource_name" {
+  description = "Name of the selection by resource."
+  default     = "selection-by-resource"
+}
+
+variable "selection_resources" {
+  description = "An array of strings that either contain Amazon Resource Names (ARNs) or match patterns of resources to assign to a backup plan."
+  default     = []
+}
+>>>>>>> 6639311824aab204b98dbb93adaa398197375c8d

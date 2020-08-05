@@ -57,3 +57,10 @@ output "plan_iam_role_unique_id" {
 output "selection_tag_ids" {
   value = module.default.selection_tag_ids
 }
+<<<<<<< HEAD
+=======
+
+output "selection_resources_ids" {
+  value = module.default.selection_resources_ids
+}
+>>>>>>> 6639311824aab204b98dbb93adaa398197375c8d

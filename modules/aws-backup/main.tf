@@ -12,11 +12,19 @@ locals {
 # Vault
 ####
 
+<<<<<<< HEAD
 resource "aws_backup_vault" "maf_vault" {
   count = var.enabled && var.vault_create ? 1 : 0
 
   name        = var.vault_name
   kms_key_arn = var.vault_kms_key_create ? element(concat(aws_kms_key.maf_vault_key.*.arn, [""]), 0) : var.vault_kms_key_arn
+=======
+resource "aws_backup_vault" "this" {
+  count = var.enabled && var.vault_create ? 1 : 0
+
+  name        = var.vault_name
+  kms_key_arn = var.vault_kms_key_create ? element(concat(aws_kms_key.this.*.arn, [""]), 0) : var.vault_kms_key_arn
+>>>>>>> 6639311824aab204b98dbb93adaa398197375c8d
 
   tags = merge(
     local.tags,
@@ -28,7 +36,11 @@ resource "aws_backup_vault" "maf_vault" {
   )
 }
 
+<<<<<<< HEAD
 resource "aws_kms_key" "maf_vault_key" {
+=======
+resource "aws_kms_key" "this" {
+>>>>>>> 6639311824aab204b98dbb93adaa398197375c8d
   count = var.enabled && var.vault_create && var.vault_kms_key_create ? 1 : 0
 
   description = "KMS Key for '${var.vault_name}' vault encryption."
@@ -43,25 +55,41 @@ resource "aws_kms_key" "maf_vault_key" {
   )
 }
 
+<<<<<<< HEAD
 resource "aws_kms_alias" "maf_vault_key_alias" {
   count = var.enabled && var.vault_create && var.vault_kms_key_create ? 1 : 0
 
   name          = var.vault_kms_key_alias_name
   target_key_id = aws_kms_key.maf_vault_key[0].key_id
+=======
+resource "aws_kms_alias" "this" {
+  count = var.enabled && var.vault_create && var.vault_kms_key_create ? 1 : 0
+
+  name          = var.vault_kms_key_alias_name
+  target_key_id = aws_kms_key.this[0].key_id
+>>>>>>> 6639311824aab204b98dbb93adaa398197375c8d
 }
 
 ####
 # Plan
 ####
 
+<<<<<<< HEAD
 resource "aws_backup_plan" "maf_aws_backup_plan" {
+=======
+resource "aws_backup_plan" "this" {
+>>>>>>> 6639311824aab204b98dbb93adaa398197375c8d
   count = var.enabled && var.plan_create ? 1 : 0
 
   name = var.plan_name
 
   rule {
     rule_name           = var.plan_rule_name
+<<<<<<< HEAD
     target_vault_name   = var.vault_create ? element(concat(aws_backup_vault.maf_vault.*.name, [""]), 0) : var.vault_name
+=======
+    target_vault_name   = var.vault_create ? element(concat(aws_backup_vault.this.*.name, [""]), 0) : var.vault_name
+>>>>>>> 6639311824aab204b98dbb93adaa398197375c8d
     schedule            = var.plan_rule_schedule
     start_window        = var.plan_rule_start_window
     completion_window   = var.plan_rule_completion_window
@@ -87,7 +115,11 @@ resource "aws_backup_plan" "maf_aws_backup_plan" {
 # Selection
 ####
 
+<<<<<<< HEAD
 data "aws_iam_policy_document" "maf_aws_backup_policy" {
+=======
+data "aws_iam_policy_document" "this" {
+>>>>>>> 6639311824aab204b98dbb93adaa398197375c8d
   count = var.enabled && var.selection_create && var.selection_role_create ? 1 : 0
 
   statement {
@@ -104,6 +136,7 @@ data "aws_iam_policy_document" "maf_aws_backup_policy" {
   }
 }
 
+<<<<<<< HEAD
 resource "aws_iam_role" "maf_aws_backup_role" {
   count = var.enabled && var.selection_create && var.selection_role_create ? 1 : 0
 
@@ -116,6 +149,20 @@ resource "aws_iam_role_policy_attachment" "maf_aws_backup_policy_attachment" {
 
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup"
   role       = aws_iam_role.maf_aws_backup_role[0].name
+=======
+resource "aws_iam_role" "this" {
+  count = var.enabled && var.selection_create && var.selection_role_create ? 1 : 0
+
+  name               = var.selection_iam_role_name
+  assume_role_policy = data.aws_iam_policy_document.this[0].json
+}
+
+resource "aws_iam_role_policy_attachment" "this" {
+  count = var.enabled && var.selection_create && var.selection_role_create ? 1 : 0
+
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup"
+  role       = aws_iam_role.this[0].name
+>>>>>>> 6639311824aab204b98dbb93adaa398197375c8d
 
   # NOTE: While this is ugly, without it we have a lot of failures with AWS. Probably a race condition.
   provisioner "local-exec" {
@@ -126,9 +173,15 @@ resource "aws_iam_role_policy_attachment" "maf_aws_backup_policy_attachment" {
 resource "aws_backup_selection" "by_tags" {
   count = var.enabled && var.selection_create && var.selection_by_tags ? 1 : 0
 
+<<<<<<< HEAD
   iam_role_arn = var.selection_role_create ? element(concat(aws_iam_role.maf_aws_backup_role.*.arn, [""]), 0) : var.selection_role_arn
   name         = var.selection_tag_name
   plan_id      = var.plan_create ? element(concat(aws_backup_plan.maf_aws_backup_plan.*.id, [""]), 0) : var.selection_plan_id
+=======
+  iam_role_arn = var.selection_role_create ? element(concat(aws_iam_role.this.*.arn, [""]), 0) : var.selection_role_arn
+  name         = var.selection_tag_name
+  plan_id      = var.plan_create ? element(concat(aws_backup_plan.this.*.id, [""]), 0) : var.selection_plan_id
+>>>>>>> 6639311824aab204b98dbb93adaa398197375c8d
 
   selection_tag {
     type  = var.selection_tag_type
@@ -137,8 +190,34 @@ resource "aws_backup_selection" "by_tags" {
   }
 
   depends_on = [
+<<<<<<< HEAD
     aws_backup_plan.maf_aws_backup_plan,
     aws_iam_role_policy_attachment.maf_aws_backup_policy_attachment
+=======
+    aws_backup_plan.this,
+    aws_iam_role_policy_attachment.this
+  ]
+
+  # NOTE: While this is ugly, without it we have a lot of failures with AWS. Probably a race condition.
+  provisioner "local-exec" {
+    when    = destroy
+    command = "sleep 10"
+  }
+}
+
+resource "aws_backup_selection" "by_resources" {
+  count = var.enabled && var.selection_create && var.selection_by_ressources ? 1 : 0
+
+  iam_role_arn = var.selection_role_create ? element(concat(aws_iam_role.this.*.arn, [""]), 0) : var.selection_role_arn
+  name         = var.selection_resource_name
+  plan_id      = var.plan_create ? element(concat(aws_backup_plan.this.*.id, [""]), 0) : var.selection_plan_id
+
+  resources = var.selection_resources
+
+  depends_on = [
+    aws_backup_plan.this,
+    aws_iam_role_policy_attachment.this
+>>>>>>> 6639311824aab204b98dbb93adaa398197375c8d
   ]
 
   # NOTE: While this is ugly, without it we have a lot of failures with AWS. Probably a race condition.
