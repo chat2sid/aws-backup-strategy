@@ -1,6 +1,6 @@
 
 module "default" {
-  source = "../../modules/aws-backup/"
+  source  = "../../modules/aws-backup/"
   enabled = true
 
   tags = {
