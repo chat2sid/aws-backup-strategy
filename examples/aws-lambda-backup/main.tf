@@ -1,3 +1,3 @@
 module "aws-lambda-backup" {
-  source = "../modules/"
+  source = "../../modules/lambda-backup/"
 }
